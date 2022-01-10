@@ -1,5 +1,6 @@
 package com.example.b2cdemo.controller;
 
+import com.example.b2cdemo.dto.PostUserCreationRequest;
 import com.example.b2cdemo.dto.PostUserTokenRequest;
 import com.example.b2cdemo.dto.PostUserTokenResponse;
 import com.example.b2cdemo.service.B2CTokenService;
@@ -31,9 +32,9 @@ public class B2CUserController {
         this.b2cValidationService = b2cValidationService;
     }
     
-    @PostMapping("/random")
-    public ResponseEntity<Void> createRandomUser() {
-        b2cUserCreationService.createUser();
+    @PostMapping("/name")
+    public ResponseEntity<Void> createRandomUser(@RequestBody PostUserCreationRequest postUserCreationRequest) {
+        b2cUserCreationService.createUser(postUserCreationRequest.getFirstName(), postUserCreationRequest.getLastName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

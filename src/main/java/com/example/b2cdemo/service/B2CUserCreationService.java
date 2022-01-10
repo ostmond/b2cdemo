@@ -23,10 +23,13 @@ public class B2CUserCreationService {
     @Value("${azure.adb2c.tenant.id}")
     private String tenantId;
 
+    @Value("${azure.adb2c.tenant.name}")
+    private String tenantName;
+
     @Value("${microsoft.graph.scope}")
     private String scope;
 
-    public void createUser() {
+    public void createUser(final String firstName, final String lastName) {
         final ClientSecretCredential clientSecretCredential = new ClientSecretCredentialBuilder()
             .clientId(clientId)
             .clientSecret(clientSecret) //required for web apps, do not set for native apps
@@ -41,9 +44,9 @@ public class B2CUserCreationService {
 
         User user = new User();
         user.accountEnabled = true;
-        user.displayName = "UUID Generated Musterfrau";
-        user.mailNickname = "aUUID2generated";
-        user.userPrincipalName = "6b1ed63b-6793-45dd-b074-b637fb9a0db4@tcconnectdevb2c.onmicrosoft.com";
+        user.displayName = firstName + " " + lastName;
+        user.mailNickname = firstName + lastName;
+        user.userPrincipalName = user.mailNickname + "@" + tenantName + ".onmicrosoft.com";
         user.passwordPolicies = "DisablePasswordExpiration";
         PasswordProfile passwordProfile = new PasswordProfile();
         passwordProfile.forceChangePasswordNextSignIn = false;
